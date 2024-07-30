@@ -3,7 +3,19 @@
     (srfi srfi-19)
     (srfi srfi-27))
 
-;; Data Structures
+;; ANSI color codes (unchanged)
+(define (color-text text color)
+(let ((color-code (case color
+             ((red) "31")
+             ((green) "32")
+             ((yellow) "33")
+             ((blue) "34")
+             ((magenta) "35")
+             ((cyan) "36")
+             (else "0"))))  ; default to no color
+(format #f "\x1b[~am~a\x1b[0m" color-code text)))
+
+;; Data Structures (unchanged)
 (define (make-user id session-id)
 (cons id session-id))
 (define (user-id user) (car user))
@@ -21,7 +33,7 @@ name)
 (define (service-name service) service)
 (define (service? obj) (string? obj))
 
-;; Utility Functions
+;; Utility Functions (mostly unchanged)
 (define (generate-uuid)
 (format #f "~4,'0x~4,'0x-~4,'0x-~4,'0x-~4,'0x-~4,'0x~4,'0x~4,'0x"
  (random (expt 16 4)) (random (expt 16 4))
@@ -35,9 +47,55 @@ name)
                   (user-id requester)
                   (service-name requester))))
 (format #t "~a: ~a by ~a ~a. RefID: ~a~%"
-   component action requester-type requester-id ref-id)))
+   (color-text component 'cyan)
+   action
+   requester-type
+   (color-text requester-id 'yellow)
+   (color-text ref-id 'green))))
 
-;; Simulation Functions
+(define (format-feature-flags flags)
+(string-join 
+(map (lambda (flag) 
+ (format #f "~a: ~a" 
+         (color-text (feature-flag-name flag) 'magenta)
+         (color-text (if (feature-flag-enabled flag) "enabled" "disabled") 'blue)))
+flags)
+", "))
+
+;; User Event Functions (updated)
+(define (simulate-user-action user ref-id action)
+(log-request "Frontend" user action ref-id)
+(simulate-api-gateway user ref-id action))
+
+(define (simulate-api-gateway user ref-id action)
+(log-request "API Gateway" user (string-append "Routing " action) ref-id)
+(simulate-service-mesh user ref-id action))
+
+(define (simulate-service-mesh user ref-id action)
+(log-request "Service Mesh" user (string-append "Directing " action) ref-id)
+(case (string->symbol action)
+((home-page) (simulate-home-page-visit user ref-id))
+((product-search) (simulate-product-search user ref-id "summer shoes"))
+((product-list) (simulate-product-list-view user ref-id "electronics"))
+((product-detail) (simulate-product-detail-view user ref-id "PROD-123"))
+((order-view) (simulate-order-view user ref-id "ORD-456"))))
+
+(define (simulate-home-page-visit user ref-id)
+(log-request "HomeService" user "Fetching home page content" ref-id))
+
+(define (simulate-product-search user ref-id query)
+(log-request "SearchService" user (format #f "Searching for '~a'" query) ref-id))
+
+(define (simulate-product-list-view user ref-id category)
+(log-request "ProductService" user (format #f "Fetching product list for category '~a'" category) ref-id))
+
+(define (simulate-product-detail-view user ref-id product-id)
+(log-request "ProductService" user (format #f "Fetching product details for product ID ~a" product-id) ref-id))
+
+(define (simulate-order-view user ref-id order-id)
+(log-request "OrderService" user (format #f "Fetching order details for order ID ~a" order-id) ref-id))
+
+;; Simulation Functions (mostly unchanged)
 (define (simulate-cdn-edge user ref-id)
 (log-request "CDN/Edge" user "Request received" ref-id)
 ref-id)
@@ -50,19 +108,11 @@ ref-id)
 (log-request "BFF" user "Processing request" ref-id)
 (values ref-id feature-flags))
 
-(define (simulate-api-gateway user ref-id feature-flags)
-(log-request "API Gateway" user "Authenticating" ref-id)
-(values ref-id feature-flags))
-
-(define (simulate-service-mesh user ref-id feature-flags)
-(log-request "Service Mesh" user "Routing request" ref-id)
-(values ref-id feature-flags))
-
 (define (simulate-microservice service user ref-id feature-flags)
 (log-request (service-name service) user "Processing request" ref-id)
 (format #t "~a: Active feature flags: ~a~%"
- (service-name service)
- (filter feature-flag-enabled feature-flags))
+ (color-text (service-name service) 'cyan)
+ (format-feature-flags (filter feature-flag-enabled feature-flags)))
 
 ;; Simulate database call
 (log-request "Database" service "Querying data" ref-id)
@@ -74,12 +124,12 @@ ref-id)
 
 (define (simulate-observability user ref-id feature-flags)
 (log-request "Observability" user "Logging event" ref-id)
-(format #t "Observability: Feature flags state: ~a~%" feature-flags))
+(format #t "Observability: Feature flags state: ~a~%" (format-feature-flags feature-flags)))
 
 (define (simulate-analytics user ref-id feature-flags)
 (log-request "Analytics" user "Sending event to GA" ref-id)
 (format #t "Analytics: Active feature flags: ~a~%"
- (filter feature-flag-enabled feature-flags)))
+ (format-feature-flags (filter feature-flag-enabled feature-flags))))
 
 (define (simulate-prometheus service ref-id)
 (log-request "Prometheus" service "Collecting metrics" ref-id))
@@ -93,6 +143,7 @@ ref-id)
 (define (simulate-kibana user ref-id)
 (log-request "Kibana" user "Visualizing data" ref-id))
 
+;; Updated User Journey Simulation
 (define (simulate-user-journey users services feature-flags)
 (let* ((user (list-ref users (random (length users))))
 (ref-id (generate-uuid)))
@@ -103,16 +154,15 @@ ref-id)
 (lambda (new-ref-id new-flags)
 (set! ref-id new-ref-id)
 (set! feature-flags new-flags)))
-(call-with-values 
-(lambda () (simulate-api-gateway user ref-id feature-flags))
-(lambda (new-ref-id new-flags)
-(set! ref-id new-ref-id)
-(set! feature-flags new-flags)))
-(call-with-values 
-(lambda () (simulate-service-mesh user ref-id feature-flags))
-(lambda (new-ref-id new-flags)
-(set! ref-id new-ref-id)
-(set! feature-flags new-flags)))
+
+;; Simulate random user events with corrected flow
+(simulate-user-action user ref-id "home-page")
+(case (random 3)
+((0) (simulate-user-action user ref-id "product-search"))
+((1) (simulate-user-action user ref-id "product-list"))
+((2) (simulate-user-action user ref-id "product-detail")))
+(when (zero? (random 2))
+(simulate-user-action user ref-id "order-view"))
 
 (for-each
 (lambda (service)
@@ -132,7 +182,7 @@ services)
 (services (map make-service '("CustomerService" "OrderService" "ProductService"))))
 (do ((i 0 (1+ i)))
 ((= i num-requests))
-(format #t "~%--- Simulating User Journey ~a ---~%" (1+ i))
+(format #t "~%~a~%" (color-text (format #f "--- Simulating User Journey ~a ---" (1+ i)) 'red))
 (simulate-user-journey users services feature-flags)
 (sleep 1))))
 
