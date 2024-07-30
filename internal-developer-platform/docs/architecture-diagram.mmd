@@ -1,0 +1,45 @@
+graph LR
+participant Customer Experience as "customer-experience"
+participant Order Fulfillment as "order-fulfillment"
+participant Product Catalog as "product-catalog"
+participant Customer Portal as "customer-portal"
+participant Customer Service as "customer-service"
+participant Order Service as "order-service"
+participant Catalog Service as "catalog-service"
+participant Product Service as "product-service"
+participant Customer DB as "customer-experience-db"
+participant Order DB as "order-fulfillment-db"
+participant Product DB as "product-catalog-db"
+participant API Hub as "api-hub"
+participant GraphQL Federation as "graphql-federation"
+participant Monitoring as "monitoring"
+participant Logging as "logging"
+participant CI/CD as "cicd"
+
+Customer Portal-->Customer Service
+Customer Service-->Customer DB
+Order Service-->Order DB
+Catalog Service-->Product DB
+Product Service-->Product DB
+Customer Experience-->Customer Portal
+Customer Experience-->Customer Service
+Order Fulfillment-->Order Service
+Product Catalog-->Catalog Service
+Product Catalog-->Product Service
+API Hub-->Customer Service
+API Hub-->Order Service
+API Hub-->Catalog Service
+API Hub-->Product Service
+GraphQL Federation-->API Hub
+Monitoring-->Customer Service
+Monitoring-->Order Service
+Monitoring-->Catalog Service
+Monitoring-->Product Service
+Logging-->Customer Service
+Logging-->Order Service
+Logging-->Catalog Service
+Logging-->Product Service
+CI/CD-->Customer Service
+CI/CD-->Order Service
+CI/CD-->Catalog Service
+CI/CD-->Product Service

@@ -1,0 +1,37 @@
+#+TITLE: product-catalog Team IDP Checklist 2024
+#+AUTHOR: product-catalog Team
+
+* IDP Maturity Checklist for product-catalog Team
+
+** Architecture and Design
+- [ ] Ensure architecture aligns with IDP guidelines
+- [ ] Review and approve service interaction patterns
+- [ ] Validate scalability and performance designs
+
+** Code Quality and Standards
+- [ ] Enforce use of shared code quality tools
+- [ ] Regularly review and update coding standards
+- [ ] Ensure proper implementation of distributed tracing
+
+** Security
+- [ ] Implement and review security practices
+- [ ] Ensure compliance with data protection regulations
+- [ ] Regularly conduct security audits
+
+** Infrastructure and Deployment
+- [ ] Utilize IaC for all infrastructure components
+- [ ] Implement and maintain CI/CD pipelines
+- [ ] Ensure proper use of Kubernetes for containerized applications
+
+** Monitoring and Observability
+- [ ] Set up comprehensive monitoring for services
+- [ ] Establish and track SLIs/SLOs for critical processes
+- [ ] Implement effective logging and tracing
+
+** Local-First Development
+- [ ] Ensure local development environment mirrors production
+- [ ] Implement effective use of LocalStack for AWS service emulation
+- [ ] Maintain offline-capable features for critical functions
+
+[... Additional sections as per team-specific requirements ...]
+

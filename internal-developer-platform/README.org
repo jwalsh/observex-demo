@@ -1,0 +1,429 @@
+#+TITLE: RFC: Building, Maintaining, and Staffing an Internal Developer Platform (IDP)
+#+AUTHOR: Jason Walsh <j@wal.sh>
+
+* Introduction
+
+** Purpose
+This Request for Comments (RFC) outlines a comprehensive framework for building, maintaining, and staffing an Internal Developer Platform (IDP). It aims to guide organizations in creating a robust IDP that aligns with modern architectural principles, engineering practices, and operational needs, while also fostering a conducive environment for tech culture and career development. Additionally, it introduces a structured approach to assessing and improving the IDP through a maturity checklist and regular audits, with a strong emphasis on local-first development practices.
+
+** Scope
+This RFC covers the architecture, engineering, operations, and staffing aspects of IDPs, with an emphasis on open-source solutions, cloud-native ecosystems, containerization, edge computing, microservices, serverless architectures, and modern engineering practices. It also includes a maturity model for IDPs and outlines a process for ongoing assessment and improvement through regular audits. The scope extends to local-first development practices, including the use of tools like LocalStack for emulating cloud services locally.
+
+* Architecture
+
+** Open Source
+- Adoption: Utilize open-source tools and frameworks to leverage community contributions and reduce costs.
+- Integration: Ensure compatibility and integration capabilities with other tools and platforms.
+- Innersource: Implement innersource practices for shared components like distributed tracing and shared models.
+- Multi-language Support: Provide implementations and tooling for multiple languages including Python, TypeScript, Clojure, and Guile Scheme.
+- Governance: Establish a governance model to manage and maintain open-source components.
+
+** Cloud-Native Ecosystem
+- Infrastructure: Implement cloud-native technologies such as Kubernetes, Docker, and serverless functions.
+- Scalability: Design for scalability and elasticity to handle varying workloads efficiently.
+- Resilience: Build for high availability and fault tolerance.
+- Local Development: Utilize tools like LocalStack to emulate cloud services locally for development and testing.
+
+** Containers
+- Containerization: Use containers to package applications and their dependencies for consistent environments across development, testing, and production.
+- Orchestration: Employ container orchestration platforms like Kubernetes for managing containerized applications.
+
+** Edge Computing
+- Deployment: Support deployment of applications and services at the edge to reduce latency and improve performance.
+- Management: Implement mechanisms for managing edge devices and ensuring secure communication.
+
+** Microservices
+- Design: Adopt a microservices architecture to allow independent development, scaling, and deployment of services.
+- Communication: Use service meshes and API gateways for managing inter-service communication and security.
+
+** Networking
+- Connectivity: Ensure robust networking solutions for intra-cluster and inter-cluster communication.
+- Security: Implement network security best practices including encryption and access controls.
+
+** Serverless
+- Functions: Leverage serverless computing for handling event-driven workloads and reducing infrastructure management overhead.
+- Cost Management: Monitor and optimize serverless function usage to control costs.
+- Local Development: Use LocalStack or similar tools to develop and test serverless functions locally.
+
+** Storage
+- Data Management: Provide scalable and reliable storage solutions, including object storage, block storage, and databases.
+- Backup and Recovery: Implement backup and disaster recovery strategies to safeguard data.
+- Multi-Region Support: Design storage solutions to support multi-region deployments and failover scenarios.
+
+** Local-First Approach
+- Principle: Adopt a local-first philosophy for interactions with external APIs, services, and LLMs to enhance resilience, performance, and data privacy.
+- Caching: Implement intelligent caching mechanisms for external API responses and service data.
+- Offline Capabilities: Design systems to function offline where possible, syncing when connectivity is restored.
+- Local LLM Deployment: Explore on-premises or edge deployment of LLMs for enhanced privacy and reduced latency.
+- AWS Service Emulation: Utilize LocalStack to emulate AWS services locally for development and testing purposes.
+
+* Engineering
+
+** AI and Large Language Models
+- Integration: Explore the integration of AI and large language models to enhance developer productivity and automate routine tasks.
+- Ethics: Adhere to ethical guidelines and best practices in AI development.
+- Local LLM Deployment: Implement local deployment options for LLMs to ensure data privacy and reduce dependency on external services.
+- Hybrid Approaches: Develop strategies for combining local and cloud-based LLM processing based on task requirements and data sensitivity.
+
+** Frontend Development
+- Tools: Provide tools and frameworks that support modern frontend development practices including React, Vue, and Angular.
+- UI/UX: Ensure the IDP interface is user-friendly and facilitates efficient development workflows.
+- Shared UI Components: Develop and maintain a library of shared UI components for consistent design and improved development efficiency.
+
+** Software Development
+- Languages: Support multiple programming languages including Python, JavaScript, TypeScript, and WebAssembly.
+- Best Practices: Promote software development best practices, including code reviews, continuous integration, and testing.
+
+** API Management
+- Design: Implement robust API management practices to handle API versioning, documentation, and security.
+- Monitoring: Utilize tools for monitoring API performance and usage.
+- API Hub: Establish an API Hub for centralized management of API schemas, documentation, and code generation for shared models.
+- Local-First Strategy: Implement local caching and offline-first capabilities for external API interactions to improve resilience and performance.
+
+** Cloud Services
+- Integration: Seamlessly integrate with various cloud services for compute, storage, and networking.
+- Optimization: Optimize cloud resource usage to balance performance and cost.
+- Local Fallbacks: Design cloud service integrations with local fallback mechanisms to ensure functionality during connectivity issues.
+- Local Development: Implement LocalStack for local development and testing of AWS services.
+
+** Data
+- Data Handling: Implement effective data management and processing strategies.
+- Compliance: Ensure compliance with data protection regulations.
+- Shared Models: Generate and maintain shared data models across multiple languages to ensure consistency.
+
+** Security
+- Controls: Implement comprehensive security controls including access management, encryption, and threat detection.
+- Compliance: Ensure adherence to industry standards and regulatory requirements.
+
+* Operations
+
+** Platform Engineering
+- Development: Continuously develop and enhance the IDP to meet evolving needs.
+- Support: Provide support and maintenance to ensure platform reliability.
+
+** Operations
+- Monitoring: Implement observability tools to monitor platform performance and health.
+- Incident Management: Establish processes for incident detection, response, and resolution.
+
+** CI/CD
+- Pipelines: Set up continuous integration and continuous deployment pipelines to automate testing and deployment processes.
+- Automation: Emphasize automation to reduce manual intervention and increase efficiency.
+- Multi-Region Deployment: Implement CI/CD pipelines that support deployment across multiple regions.
+- One-Click Failover: Develop capabilities for rapid, one-click failover between regions to ensure high availability.
+
+** Tech Careers and Culture
+- Career Development: Foster career growth opportunities for tech professionals within the organization.
+- Culture: Promote a positive tech culture that encourages innovation, collaboration, and continuous learning.
+
+** DevOps
+- Integration: Adopt DevOps practices to improve collaboration between development and operations teams.
+- Tools: Use DevOps tools for automation, monitoring, and infrastructure management.
+
+** Kubernetes
+- Management: Use Kubernetes for orchestrating containerized applications.
+- Best Practices: Follow Kubernetes best practices for configuration, scaling, and security.
+
+** Observability
+- Tools: Implement observability tools to gain insights into platform performance and user experience.
+- Metrics: Track and analyze key metrics to inform decision-making.
+
+** Service Mesh
+- Deployment: Use a service mesh to manage service-to-service communications and enhance security.
+- Monitoring: Monitor and manage the service mesh to ensure performance and reliability.
+
+** Cost Control and Optimization
+- Monitoring: Implement robust cost monitoring and alerting systems.
+- Optimization: Regularly review and optimize resource usage to control costs.
+- AWS Review: Conduct periodic reviews of AWS services usage and implement best practices for cost-effective cloud resource management.
+
+** IDP Maturity Assessment
+- Checklist: Utilize the IDP Maturity Checklist to assess the current state of the platform.
+- Regular Evaluation: Conduct quarterly assessments using the checklist to track progress and identify areas for improvement.
+- Improvement Planning: Use the results of the assessment to inform the IDP roadmap and prioritize enhancements.
+
+** Platform Team Audits
+- Technical Audits: Conduct regular audits of IDP components, including security, performance, and code quality.
+- Process Audits: Review and optimize IDP-related processes, such as onboarding, incident response, and change management.
+- Compliance Audits: Ensure the IDP meets all necessary compliance requirements and industry standards.
+- User Experience Audits: Gather feedback from development teams to improve the usability and effectiveness of the IDP.
+
+** Local-First Operations
+- Caching Strategies: Implement and maintain sophisticated caching mechanisms for external data and API responses.
+- Sync Mechanisms: Develop robust synchronization processes for local and remote data.
+- Monitoring: Set up monitoring for local-remote data discrepancies and sync failures.
+- Capacity Planning: Regularly assess and adjust local storage and processing capabilities to support local-first approaches.
+- LocalStack Integration: Ensure smooth integration of LocalStack for local AWS service emulation in development and testing environments.
+
+* IDP Maturity Checklist
+
+The following checklist serves as a tool for assessing and improving the maturity of the Internal Developer Platform:
+
+1. [ ] Version Control
+   - [ ] Do all components of the IDP use version control?
+   - [ ] Is there a clear branching and merging strategy?
+
+2. [ ] Automated Builds and Deployments
+   - [ ] Can you build and deploy the entire IDP in one step?
+   - [ ] Are there automated checks and gates in the deployment pipeline?
+
+3. [ ] Continuous Integration/Continuous Deployment (CI/CD)
+   - [ ] Is there a CI/CD pipeline for the IDP itself?
+   - [ ] Does the IDP provide CI/CD capabilities for team projects?
+
+4. [ ] Infrastructure as Code (IaC)
+   - [ ] Is all infrastructure defined and version-controlled as code?
+   - [ ] Can you recreate the entire IDP environment from IaC?
+
+5. [ ] Documentation and Specifications
+   - [ ] Is there comprehensive, up-to-date documentation for the IDP?
+   - [ ] Are there clear specifications for APIs, shared models, and components?
+
+6. [ ] Monitoring and Observability
+   - [ ] Are there defined SLIs (Service Level Indicators) for the IDP?
+   - [ ] Are there clear SLOs (Service Level Objectives) for the IDP?
+   - [ ] Is there end-to-end tracing across all IDP components?
+
+7. [ ] Security and Compliance
+   - [ ] Are there automated security scans in the IDP pipeline?
+   - [ ] Does the IDP enforce compliance requirements for all projects?
+
+8. [ ] Testing
+   - [ ] Is there a comprehensive test suite for the IDP?
+   - [ ] Does the IDP provide testing frameworks and tools for team projects?
+
+9. [ ] Developer Experience
+   - [ ] Can developers onboard to a new project in less than a day?
+   - [ ] Is there a self-service portal for common developer tasks?
+
+10. [ ] Feedback Loops
+    - [ ] Is usage data collected to inform IDP improvements?
+    - [ ] Is there a clear process for teams to request features or report issues?
+
+11. [ ] Platform as a Product
+    - [ ] Is there a roadmap for IDP features and improvements?
+    - [ ] Is there a dedicated team responsible for the IDP?
+
+12. [ ] Cost Management
+    - [ ] Are there tools for teams to monitor and optimize their cloud costs?
+    - [ ] Is there a process for regular cost reviews and optimizations?
+
+13. [ ] Multi-Region and Disaster Recovery
+    - [ ] Does the IDP support multi-region deployments?
+    - [ ] Is there a tested disaster recovery plan?
+
+14. [ ] Performance
+    - [ ] Are there benchmarks for common operations (e.g., build times, deployment times)?
+    - [ ] Is performance consistently measured and optimized?
+
+15. [ ] Scalability
+    - [ ] Can the IDP handle the peak load of all teams working simultaneously?
+    - [ ] Is there auto-scaling for IDP components?
+
+16. [ ] Shared Components
+    - [ ] Is there a library of shared UI components?
+    - [ ] Are there shared backend services that teams can easily integrate?
+
+17. [ ] API Management
+    - [ ] Is there a central API gateway and management tool?
+    - [ ] Is there a process for API versioning and deprecation?
+
+18. [ ] Data Management
+    - [ ] Are there tools for data migration and schema evolution?
+    - [ ] Is there a unified approach to data access and permissions?
+
+19. [ ] Compliance and Auditing
+    - [ ] Does the IDP provide audit logs for all significant actions?
+    - [ ] Are there tools to generate compliance reports automatically?
+
+20. [ ] Knowledge Sharing
+    - [ ] Is there a central knowledge base or wiki?
+    - [ ] Are there regular training sessions or workshops on IDP features?
+
+21. [ ] Innersource Practices
+    - [ ] Are IDP components open for contributions from all teams?
+    - [ ] Is there a clear process for suggesting and implementing improvements?
+
+22. [ ] Cloud Provider Optimization
+    - [ ] Are cloud provider best practices consistently applied?
+    - [ ] Is there regular review and optimization of cloud resource usage?
+
+23. [ ] Continuous Learning and Improvement
+    - [ ] Are postmortems conducted for significant incidents?
+    - [ ] Is there a process to incorporate learnings into the IDP?
+
+24. [ ] Developer Productivity Metrics
+    - [ ] Are DORA metrics (deployment frequency, lead time, MTTR, change failure rate) tracked?
+    - [ ] Are there tools to help teams improve their metrics?
+
+25. [ ] External Integration
+    - [ ] Can the IDP easily integrate with external tools and services?
+    - [ ] Is there a vetting process for new integrations?
+
+26. [ ] Local-First Approach
+    - [ ] Is there a strategy for local-first interactions with external APIs and services?
+    - [ ] Are there mechanisms in place for local LLM processing where appropriate?
+    - [ ] Is there a clear policy on what data should be processed locally vs. in the cloud?
+    - [ ] Is LocalStack or a similar tool used for local AWS service emulation?
+
+** Using the Checklist
+- Quarterly Assessment: The platform team should use this checklist to assess the IDP's maturity on a quarterly basis.
+- Scoring: Develop a scoring system to quantify progress over time.
+- Action Planning: For each unchecked item, create an action plan to address the gap.
+- Prioritization: Use the assessment results to inform the IDP roadmap and prioritize improvements.
+
+** Continuous Improvement
+- Feedback Loop: Regularly gather feedback from development teams on the relevance and effectiveness of the checklist items.
+- Checklist Evolution: Update the checklist annually to reflect changing technology trends and organizational needs.
+- Success Stories: Document and share success stories related to improvements driven by the checklist assessment.
+
+* Audit Process
+
+The platform team shall conduct regular audits to ensure the health, security, and effectiveness of the IDP. The audit process should include:
+
+** Technical Audits
+- Frequency: Conduct technical audits quarterly.
+- Scope: Review code quality, security practices, performance metrics, and adherence to architectural standards.
+- Tools: 
+  - Utilize automated code analysis tools such as SonarQube for code quality and security vulnerabilities.
+  - Implement Snyk for continuous security scanning of dependencies.
+  - Use language-specific linting tools (e.g., ESLint for JavaScript, Pylint for Python) to enforce coding standards.
+- Static Analysis: Run static code analysis as part of the CI/CD pipeline to catch issues early.
+- Reporting: Generate detailed reports with findings and recommendations from all tools.
+
+** Process Audits
+- Frequency: Conduct process audits semi-annually.
+- Scope: Evaluate efficiency of development workflows, incident response procedures, and change management processes.
+- Methodology: Combine data analysis with stakeholder interviews.
+- Outcome: Produce process improvement recommendations and action plans.
+
+** Compliance Audits
+- Frequency: Conduct compliance audits annually or as required by regulations.
+- Scope: Ensure adherence to relevant industry standards and regulatory requirements.
+- Documentation: Maintain detailed records of compliance checks and remediation efforts.
+- External Validation: Consider engaging third-party auditors for independent verification.
+- Automated Compliance: Implement tools to automate compliance checks where possible.
+
+** User Experience Audits
+- Frequency: Conduct user experience audits quarterly.
+- Methodology: Combine user surveys, usage analytics, and usability testing.
+- Feedback Integration: Establish a clear process for incorporating user feedback into the IDP roadmap.
+- Metrics: Track user satisfaction scores and adoption rates of IDP features.
+
+** Security Audits
+- Frequency: Conduct comprehensive security audits bi-annually.
+- Scope: 
+  - Review access controls, encryption practices, and overall security posture.
+  - Perform penetration testing and vulnerability assessments.
+- Tools:
+  - Use Snyk for continuous monitoring of open-source dependencies.
+  - Implement dynamic application security testing (DAST) tools.
+- Reporting: Generate detailed security reports and remediation plans.
+
+** Performance Audits
+- Frequency: Conduct performance audits quarterly.
+- Scope: Evaluate system performance, response times, and resource utilization.
+- Tools: 
+  - Use application performance monitoring (APM) tools.
+  - Implement load testing tools to simulate peak usage scenarios.
+- Optimization: Develop performance optimization plans based on audit results.
+
+** Code Quality Audits
+- Frequency: Conduct code quality audits as part of each release cycle.
+- Scope: Assess code maintainability, reliability, and adherence to best practices.
+- Tools:
+  - Use SonarQube for continuous code quality monitoring.
+  - Implement language-specific linting tools in CI/CD pipelines.
+- Metrics: Track code quality metrics over time (e.g., technical debt, code smells, duplication).
+
+** Audit Follow-up
+- Action Plans: Develop specific, time-bound action plans to address audit findings.
+- Tracking: Implement a system to track the progress of audit-related improvements.
+- Reporting: Provide regular updates to leadership on the status of audit-driven enhancements.
+- Continuous Improvement: Use audit results to inform and update the IDP Maturity Checklist.
+
+** Integration with Development Workflow
+- CI/CD Integration: Integrate audit tools (SonarQube, Snyk, linters) into the CI/CD pipeline for continuous assessment.
+- Developer Feedback: Provide immediate feedback to developers on code quality and security issues through IDE integrations.
+- Automated Gating: Implement quality gates in the deployment pipeline based on audit tool results.
+
+** Training and Awareness
+- Tool Training: Provide regular training sessions on using and interpreting results from audit tools.
+- Best Practices: Conduct workshops on coding best practices, security awareness, and performance optimization techniques.
+- Documentation: Maintain up-to-date documentation on audit processes, tools, and remediation strategies.
+
+By implementing these comprehensive audit processes and integrating tools like SonarQube, Snyk, and language-specific linters, the IDP can maintain high standards of code quality, security, and performance. Regular audits across various dimensions ensure that the platform continues to evolve and improve, meeting the changing needs of the organization and its development teams.* Audit Process
+
+The platform team shall conduct regular audits to ensure the health, security, and effectiveness of the IDP. The audit process should include:
+
+** Technical Audits
+- Frequency: Conduct technical audits quarterly.
+- Scope: Review code quality, security practices, performance metrics, and adherence to architectural standards.
+- Tools: 
+  - Utilize automated code analysis tools such as SonarQube for code quality and security vulnerabilities.
+  - Implement Snyk for continuous security scanning of dependencies.
+  - Use language-specific linting tools (e.g., ESLint for JavaScript, Pylint for Python) to enforce coding standards.
+- Static Analysis: Run static code analysis as part of the CI/CD pipeline to catch issues early.
+- Reporting: Generate detailed reports with findings and recommendations from all tools.
+
+** Process Audits
+- Frequency: Conduct process audits semi-annually.
+- Scope: Evaluate efficiency of development workflows, incident response procedures, and change management processes.
+- Methodology: Combine data analysis with stakeholder interviews.
+- Outcome: Produce process improvement recommendations and action plans.
+
+** Compliance Audits
+- Frequency: Conduct compliance audits annually or as required by regulations.
+- Scope: Ensure adherence to relevant industry standards and regulatory requirements.
+- Documentation: Maintain detailed records of compliance checks and remediation efforts.
+- External Validation: Consider engaging third-party auditors for independent verification.
+- Automated Compliance: Implement tools to automate compliance checks where possible.
+
+** User Experience Audits
+- Frequency: Conduct user experience audits quarterly.
+- Methodology: Combine user surveys, usage analytics, and usability testing.
+- Feedback Integration: Establish a clear process for incorporating user feedback into the IDP roadmap.
+- Metrics: Track user satisfaction scores and adoption rates of IDP features.
+
+** Security Audits
+- Frequency: Conduct comprehensive security audits bi-annually.
+- Scope: 
+  - Review access controls, encryption practices, and overall security posture.
+  - Perform penetration testing and vulnerability assessments.
+- Tools:
+  - Use Snyk for continuous monitoring of open-source dependencies.
+  - Implement dynamic application security testing (DAST) tools.
+- Reporting: Generate detailed security reports and remediation plans.
+
+** Performance Audits
+- Frequency: Conduct performance audits quarterly.
+- Scope: Evaluate system performance, response times, and resource utilization.
+- Tools: 
+  - Use application performance monitoring (APM) tools.
+  - Implement load testing tools to simulate peak usage scenarios.
+- Optimization: Develop performance optimization plans based on audit results.
+
+** Code Quality Audits
+- Frequency: Conduct code quality audits as part of each release cycle.
+- Scope: Assess code maintainability, reliability, and adherence to best practices.
+- Tools:
+  - Use SonarQube for continuous code quality monitoring.
+  - Implement language-specific linting tools in CI/CD pipelines.
+- Metrics: Track code quality metrics over time (e.g., technical debt, code smells, duplication).
+
+** Audit Follow-up
+- Action Plans: Develop specific, time-bound action plans to address audit findings.
+- Tracking: Implement a system to track the progress of audit-related improvements.
+- Reporting: Provide regular updates to leadership on the status of audit-driven enhancements.
+- Continuous Improvement: Use audit results to inform and update the IDP Maturity Checklist.
+
+** Integration with Development Workflow
+- CI/CD Integration: Integrate audit tools (SonarQube, Snyk, linters) into the CI/CD pipeline for continuous assessment.
+- Developer Feedback: Provide immediate feedback to developers on code quality and security issues through IDE integrations.
+- Automated Gating: Implement quality gates in the deployment pipeline based on audit tool results.
+
+** Training and Awareness
+- Tool Training: Provide regular training sessions on using and interpreting results from audit tools.
+- Best Practices: Conduct workshops on coding best practices, security awareness, and performance optimization techniques.
+- Documentation: Maintain up-to-date documentation on audit processes, tools, and remediation strategies.
+
+By implementing these comprehensive audit processes and integrating tools like SonarQube, Snyk, and language-specific linters, the IDP can maintain high standards of code quality, security, and performance. Regular audits across various dimensions ensure that the platform continues to evolve and improve, meeting the changing needs of the organization and its development teams.

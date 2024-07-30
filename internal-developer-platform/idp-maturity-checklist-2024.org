@@ -1,0 +1,126 @@
+#+TITLE: IDP Maturity Checklist 2024
+#+AUTHOR: Platform Engineering Team
+
+* Introduction
+This checklist is designed to assess and guide the maturity of our Internal Developer Platform (IDP) usage across different teams and organizational levels. It should be reviewed and updated quarterly to ensure continuous improvement.
+
+* For All Teams (Product and Platform)
+
+** Individual Contributors (ICs)
+*** Architecture and Design
+- [ ] Understand and adhere to IDP architectural guidelines
+- [ ] Participate in service design reviews
+- [ ] Implement scalable and performant solutions using IDP resources
+
+*** Code Quality and Standards
+- [ ] Use IDP-approved code quality tools (e.g., SonarQube, linters)
+- [ ] Follow team coding standards
+- [ ] Implement proper distributed tracing in all services
+
+*** Security
+- [ ] Follow IDP security best practices in all development work
+- [ ] Participate in security training sessions
+- [ ] Report potential security vulnerabilities promptly
+
+*** Infrastructure and Deployment
+- [ ] Use Infrastructure as Code (IaC) for all infrastructure components
+- [ ] Understand and utilize CI/CD pipelines effectively
+- [ ] Properly use Kubernetes for containerized applications
+
+*** Monitoring and Observability
+- [ ] Implement comprehensive monitoring for owned services
+- [ ] Understand and track relevant SLIs/SLOs
+- [ ] Ensure effective logging and tracing in all developed features
+
+*** Local-First Development
+- [ ] Maintain a local development environment that mirrors production
+- [ ] Utilize LocalStack or similar tools for AWS service emulation
+- [ ] Develop with offline-first capabilities where appropriate
+
+** Team Leads
+*** Team Alignment
+- [ ] Ensure team's technical decisions align with IDP strategy
+- [ ] Facilitate knowledge sharing of IDP best practices within the team
+- [ ] Represent team in cross-team IDP discussions and decision-making
+
+*** Quality Assurance
+- [ ] Review and approve major architectural decisions
+- [ ] Ensure adherence to IDP standards in code reviews
+- [ ] Drive continuous improvement in team's IDP utilization
+
+*** Performance and Scalability
+- [ ] Oversee performance optimizations of team's services
+- [ ] Ensure proper resource allocation and scaling strategies
+- [ ] Collaborate with platform team on performance improvements
+
+** Managers/Directors
+*** Strategic Alignment
+- [ ] Align team goals with overall IDP strategy
+- [ ] Advocate for IDP adoption and maturity within the organization
+- [ ] Participate in long-term IDP roadmap planning
+
+*** Resource Management
+- [ ] Allocate resources for IDP-related improvements and training
+- [ ] Balance feature development with platform adoption and maturity
+- [ ] Ensure team has necessary skills and training for effective IDP use
+
+*** Metrics and Reporting
+- [ ] Track and report on team's IDP maturity progress
+- [ ] Use IDP-related metrics to drive team improvements
+- [ ] Communicate IDP success stories and challenges to leadership
+
+* Product Team Specific
+
+** Individual Contributors (ICs)
+*** Product Integration
+- [ ] Effectively use IDP APIs and services in product development
+- [ ] Provide feedback on IDP features and suggest improvements
+- [ ] Implement product-specific features using IDP capabilities
+
+** Team Leads
+*** Product Architecture
+- [ ] Ensure product architecture leverages IDP capabilities effectively
+- [ ] Collaborate with platform team on product-specific IDP needs
+- [ ] Drive adoption of new IDP features within the product
+
+** Managers/Directors
+*** Product Strategy
+- [ ] Align product roadmap with IDP capabilities and roadmap
+- [ ] Advocate for product-specific needs in IDP development
+- [ ] Measure and report on IDP impact on product development efficiency
+
+* Platform Team Specific
+
+** Individual Contributors (ICs)
+*** Platform Development
+- [ ] Develop and maintain core IDP services and infrastructure
+- [ ] Implement platform-wide observability and monitoring solutions
+- [ ] Contribute to IDP documentation and knowledge base
+
+** Team Leads
+*** Platform Architecture
+- [ ] Design and evolve overall IDP architecture
+- [ ] Lead cross-team technical discussions on IDP capabilities
+- [ ] Ensure platform scalability and performance meets organizational needs
+
+** Managers/Directors
+*** Platform Strategy
+- [ ] Drive long-term IDP strategy and roadmap
+- [ ] Manage stakeholder expectations and gather requirements
+- [ ] Ensure IDP aligns with overall technology strategy of the organization
+
+* Quarterly Review
+- Date of last review: [Insert Date]
+- Key improvements since last review:
+  1. [Improvement 1]
+  2. [Improvement 2]
+  3. [Improvement 3]
+- Focus areas for next quarter:
+  1. [Focus Area 1]
+  2. [Focus Area 2]
+  3. [Focus Area 3]
+
+* Notes
+- This checklist should be adapted as needed for your organization's specific needs and structure.
+- Regular reviews and updates of this checklist are crucial to ensure it remains relevant and effective.
+- Encourage open communication and feedback from all levels to continuously improve the IDP and this maturity model.

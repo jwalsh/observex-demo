@@ -1,0 +1,13 @@
+#+TITLE: Change Management
+#+AUTHOR: Platform Engineering Team
+
+* Overview
+This directory contains all change management related components for our Internal Developer Platform.
+
+* Structure
+- tooling/: Configuration for change control tools
+- requests/: Templates and storage for change requests
+- policies/: Change management policies and procedures
+
+* Usage
+Refer to the change-management-policy.md file for detailed information on our change control process.

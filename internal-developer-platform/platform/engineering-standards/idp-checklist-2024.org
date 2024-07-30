@@ -1,0 +1,22 @@
+#+TITLE: Platform Engineering Team IDP Checklist 2024
+#+AUTHOR: Platform Engineering Team
+
+* IDP Maturity Checklist for Platform Engineering Team
+
+** Architecture and Design
+- [ ] Design and maintain overall IDP architecture
+- [ ] Establish platform-wide design principles and best practices
+- [ ] Ensure scalability and performance of platform services
+
+** Code Quality and Standards
+- [ ] Define and enforce platform-wide coding standards
+- [ ] Implement and maintain shared libraries and SDKs
+- [ ] Ensure proper implementation of observability standards
+
+** Security
+- [ ] Design and implement platform-wide security architecture
+- [ ] Ensure compliance with industry standards and regulations
+- [ ] Conduct regular security audits and penetration testing
+
+[... Additional sections as per platform team-specific requirements ...]
+

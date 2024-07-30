@@ -1,0 +1,14 @@
+version: '3'
+services:
+  customer-experience:
+    extends:
+      file: internal-developer-platform/teams/customer-experience/docker-compose.yml
+      service: customer-experience
+  order-fulfillment:
+    extends:
+      file: internal-developer-platform/teams/order-fulfillment/docker-compose.yml
+      service: order-fulfillment
+  product-catalog:
+    extends:
+      file: internal-developer-platform/teams/product-catalog/docker-compose.yml
+      service: product-catalog

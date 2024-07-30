@@ -1,0 +1,43 @@
+sequenceDiagram
+participant C as Customer
+participant UI as Customer Portal UI
+participant GQL as GraphQL API (Product Catalog)
+participant OS as Order Service
+participant PS as Product Service
+participant CS as Customer Service
+participant ODB as Order DB
+participant PDB as Product DB
+participant CDB as Customer DB
+
+C->>UI: View Completed Order
+activate UI
+UI->>GQL: Query Order Details
+activate GQL
+GQL->>OS: Get Order (gRPC)
+activate OS
+OS->>ODB: Fetch Order Data
+activate ODB
+ODB-->>OS: Order Data
+deactivate ODB
+OS-->>GQL: Order Details
+deactivate OS
+GQL->>PS: Get Product Details (gRPC)
+activate PS
+PS->>PDB: Fetch Product Data
+activate PDB
+PDB-->>PS: Product Data
+deactivate PDB
+PS-->>GQL: Product Details
+deactivate PS
+GQL->>CS: Get Customer Details (gRPC)
+activate CS
+CS->>CDB: Fetch Customer Data
+activate CDB
+CDB-->>CS: Customer Data
+deactivate CDB
+CS-->>GQL: Customer Details
+deactivate CS
+GQL-->>UI: Compiled Order, Product, and Customer Data
+deactivate GQL
+UI-->>C: Display Completed Order
+deactivate UI

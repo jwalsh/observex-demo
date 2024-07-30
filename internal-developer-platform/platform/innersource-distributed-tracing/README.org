@@ -1,0 +1,14 @@
+#+TITLE: Innersource Distributed Tracing
+#+AUTHOR: Platform Team
+
+* Overview
+This directory contains the innersource distributed tracing implementations.
+
+* Supported Languages
+- Python
+- TypeScript
+- Clojure
+- Guile Scheme
+
+* Usage
+Refer to the language-specific directories for implementation details and usage instructions.

@@ -1,0 +1,20 @@
+version: '3'
+services:
+  catalog-service:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-catalog-db
+  product-service:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - product-catalog-db
+  product-catalog-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=product-catalog
+      - POSTGRES_PASSWORD=product-catalog
+      - POSTGRES_DB=product-catalog

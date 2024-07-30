@@ -1,0 +1,12 @@
+#+TITLE: Shared Infrastructure
+#+AUTHOR: Platform Engineering Team
+
+* Overview
+This directory contains shared infrastructure configurations for AWS and Kubernetes.
+
+* Structure
+- aws/: Shared AWS configurations, including organization structure and shared resources
+- kubernetes/: Shared Kubernetes configurations, including cluster setup and resource quotas
+
+* Usage
+These configurations should be used as the base for all team-specific infrastructure. Any changes to these shared configurations must go through the change control process.
