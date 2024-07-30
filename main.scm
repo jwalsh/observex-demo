@@ -6,4 +6,4 @@
 (define teams-dir "internal-developer-platform/teams")
 
 ;; (load "internal-developer-platform/demo/distributed-tracing/demo-utils.scm")
-(load "observex_simulator.scm")
+(load "observex-simulator.scm")

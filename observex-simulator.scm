@@ -3,6 +3,9 @@
     (srfi srfi-19)
     (srfi srfi-27))
 
+;; (add-to-load-path ".")
+;; (use-modules (jaeger))
+
 ;; ANSI color codes
 (define (color-text text color)
 (let ((color-code (case color

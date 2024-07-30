@@ -4,7 +4,7 @@
 SHELL := /bin/bash
 MMDC := mmdc  # Assumes mermaid-cli is installed and 'mmdc' is in PATH
 DOCS_DIR := internal-developer-platform/docs
-OUTPUT_DIR := internal-developer-platform/docs
+OUTPUT_DIR := output
 GUILE := guile
 
 # Find all .mmd files in the docs directory
@@ -12,7 +12,7 @@ MMD_FILES := $(wildcard $(DOCS_DIR)/*.mmd)
 PNG_FILES := $(patsubst $(DOCS_DIR)/%.mmd,$(OUTPUT_DIR)/%.png,$(MMD_FILES))
 
 # Default target
-all: $(PNG_FILES) files.txt tree.txt simulator.txt
+all: files.txt tree.txt simulator.txt $(PNG_FILES) 
 
 # Rule to convert .mmd files to .png
 $(OUTPUT_DIR)/%.png: $(DOCS_DIR)/%.mmd | $(OUTPUT_DIR)
@@ -31,8 +31,8 @@ tree.txt:
 	tree -L 3 > $@
 
 # Generate simulator.txt
-simulator.txt: observex_simulator.scm
-	$(GUILE) --no-auto-compile observex_simulator.scm 2>&1 | tee $@
+simulator.txt: observex-simulator.scm
+	$(GUILE) --no-auto-compile observex-simulator.scm 2>&1 | tee $@
 
 # Run simulator interactively
 run-simulator:
