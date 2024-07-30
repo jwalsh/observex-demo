@@ -64,6 +64,9 @@ flags)
 
 ;; User Event Functions (updated)
 (define (simulate-user-action user ref-id action)
+(format #t "~%~a~%" (make-string 50 #\=))
+(format #t "~a~%" (color-text (format #f "USER ACTION: ~a" (string-upcase action)) 'red))
+(format #t "~a~%" (make-string 50 #\=))
 (log-request "Frontend" user action ref-id)
 (simulate-api-gateway user ref-id action))
 
@@ -192,3 +195,6 @@ services)
 (run-simulation 5))
 
 (main '())
+
+;; Ensure Guile exits after running the simulator
+(exit)

@@ -1,45 +1,112 @@
-graph LR
-participant Customer Experience as "customer-experience"
-participant Order Fulfillment as "order-fulfillment"
-participant Product Catalog as "product-catalog"
-participant Customer Portal as "customer-portal"
-participant Customer Service as "customer-service"
-participant Order Service as "order-service"
-participant Catalog Service as "catalog-service"
-participant Product Service as "product-service"
-participant Customer DB as "customer-experience-db"
-participant Order DB as "order-fulfillment-db"
-participant Product DB as "product-catalog-db"
-participant API Hub as "api-hub"
-participant GraphQL Federation as "graphql-federation"
-participant Monitoring as "monitoring"
-participant Logging as "logging"
-participant CI/CD as "cicd"
+graph TB
+    User["User"] --> CDN["CDN/Edge Network"]
+    CDN --> FrontendProxy["Frontend Proxy/Load Balancer"]
+    
+    subgraph Frontend["Frontend"]
+        StaticAssets["Static Assets"]
+        BFF["Backend for Frontend (BFF)"]
+        Analytics["Analytics Script"]
+    end
+    FrontendProxy --> StaticAssets
+    FrontendProxy --> BFF
+    FrontendProxy --> Frontend
+    
+    BFF --> APIGateway["API Gateway"]
+    Frontend --> APIGateway
+    
+    subgraph Platform["Platform Services"]
+        APIGateway --> AuthN["Authentication"]
+        APIGateway --> AuthZ["Authorization"]
+        APIGateway --> RateLimit["Rate Limiting"]
+        
+        ServiceMesh["Service Mesh"]
+        ServiceDiscovery["Service Discovery"]
+        ConfigManagement["Config Management"]
+        SecretManagement["Secret Management"]
+        Observability["Observability"]
+        subgraph Observability
+            Monitoring["Monitoring"]
+            Logging["Logging"]
+            Tracing["Distributed Tracing"]
+            Prometheus["Prometheus"]
+            Elasticsearch["Elasticsearch"]
+            Logstash["Logstash"]
+            Kibana["Kibana"]
+        end
+        CICD["CI/CD Pipeline"]
+        FeatureFlags["Feature Flags"]
+        GitOps["GitOps"]
+        
+        APIGateway --> ServiceMesh
+        ServiceMesh --> ServiceDiscovery
+    end
+    
+    subgraph DataLayer["Data Layer"]
+        CacheLayer["Cache Layer"]
+        PrimaryDB["Primary Database"]
+        DataWarehouse["Data Warehouse"]
+        MessageQueue["Message Queue"]
+        EventBus["Event Bus"]
+    end
+    
+    subgraph MicroservicesDomain["Microservices Domain"]
+        subgraph CustomerExperience["Customer Experience"]
+            CustomerService["Customer Service"]
+            CustomerAnalytics["Customer Analytics"]
+        end
+        subgraph OrderFulfillment["Order Fulfillment"]
+            OrderService["Order Service"]
+            InventoryService["Inventory Service"]
+        end
+        subgraph ProductCatalog["Product Catalog"]
+            CatalogService["Catalog Service"]
+            ProductService["Product Service"]
+            PricingService["Pricing Service"]
+        end
+        HomeService["Home Service"]
+    end
+    
+    ServiceMesh --> CustomerExperience
+    ServiceMesh --> OrderFulfillment
+    ServiceMesh --> ProductCatalog
+    ServiceMesh --> HomeService
+    
+    MicroservicesDomain --> DataLayer
+    
+    Observability --> ServiceMesh
+    ConfigManagement --> MicroservicesDomain
+    SecretManagement --> MicroservicesDomain
+    FeatureFlags --> ServiceMesh
+    FeatureFlags --> MicroservicesDomain
+    CICD --> GitOps
+    GitOps --> MicroservicesDomain
 
-Customer Portal-->Customer Service
-Customer Service-->Customer DB
-Order Service-->Order DB
-Catalog Service-->Product DB
-Product Service-->Product DB
-Customer Experience-->Customer Portal
-Customer Experience-->Customer Service
-Order Fulfillment-->Order Service
-Product Catalog-->Catalog Service
-Product Catalog-->Product Service
-API Hub-->Customer Service
-API Hub-->Order Service
-API Hub-->Catalog Service
-API Hub-->Product Service
-GraphQL Federation-->API Hub
-Monitoring-->Customer Service
-Monitoring-->Order Service
-Monitoring-->Catalog Service
-Monitoring-->Product Service
-Logging-->Customer Service
-Logging-->Order Service
-Logging-->Catalog Service
-Logging-->Product Service
-CI/CD-->Customer Service
-CI/CD-->Order Service
-CI/CD-->Catalog Service
-CI/CD-->Product Service
+    %% Connections for refId and feature flag propagation
+    User -- "refId generated" --> CDN
+    CDN -- "refId propagated" --> FrontendProxy
+    FrontendProxy -- "refId propagated" --> BFF
+    BFF -- "refId propagated" --> APIGateway
+    APIGateway -- "refId propagated" --> ServiceMesh
+    ServiceMesh -- "refId & feature flags propagated" --> CustomerExperience
+    ServiceMesh -- "refId & feature flags propagated" --> OrderFulfillment
+    ServiceMesh -- "refId & feature flags propagated" --> ProductCatalog
+    ServiceMesh -- "refId & feature flags propagated" --> HomeService
+    CustomerExperience -- "refId & feature flags logged" --> Observability
+    OrderFulfillment -- "refId & feature flags logged" --> Observability
+    ProductCatalog -- "refId & feature flags logged" --> Observability
+    HomeService -- "refId & feature flags logged" --> Observability
+
+    %% New connections for analytics
+    User -- "User interactions" --> Analytics
+    BFF -- "refId & feature flags" --> Analytics
+    Analytics -- "Events with refId & feature flags" --> GA["Google Analytics"]
+    GA -- "Analytics data" --> DataWarehouse
+
+    %% New connections for database and monitoring
+    MicroservicesDomain --> PrimaryDB
+    MicroservicesDomain --> Prometheus
+    MicroservicesDomain --> Elasticsearch
+    MicroservicesDomain --> Logstash
+
+    classDef highlight fill:#f9f,stroke:#333,stroke-width:4px;
+    class User,CDN,FrontendProxy,BFF,APIGateway,ServiceMesh,FeatureFlags,Observability,CustomerExperience,OrderFulfillment,ProductCatalog,Analytics,GA,HomeService highlight;
