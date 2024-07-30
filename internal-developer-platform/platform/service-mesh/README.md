@@ -1,3 +1,3 @@
 # Service Mesh
-This directory contains configurations and documentation for our service mesh implementation.
-It focuses on internal service-to-service communication, providing service discovery, load balancing, and security.
+This directory contains configurations for our Service Mesh.
+It manages service-to-service communication, including service discovery and load balancing.
