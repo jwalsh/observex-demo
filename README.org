@@ -4,27 +4,57 @@
 * Overview
 This repository contains a comprehensive demo of an Internal Developer Platform (IDP) designed to streamline development processes, improve collaboration, and enhance productivity across multiple teams. The IDP incorporates modern architectural principles, engineering practices, and operational needs while fostering a conducive environment for tech culture and career development.
 
-* Simulator 
+* Observability Demo
+The IDP demo highlights the following observability aspects:
 
+  + Comprehensive Monitoring: Implementation of monitoring tools to track system performance, latency, and errors.
+  + Logging and Tracing: Integration of logging and tracing mechanisms to provide insights into system behavior and facilitate debugging.
+  + Metrics and Alerting: Configuration of metrics and alerting systems to ensure proactive issue detection and notification.
+  + Visualization: Utilization of visualization tools to provide a unified view of system performance and facilitate data-driven decision-making.
+
+* Simulator
 [[./simulator.png]]
 
 * Key Features
-- Open-source and cloud-native architecture
-- Containerization and Kubernetes orchestration
-- Microservices architecture with service mesh
-- Comprehensive observability and monitoring
-- Local-first development approach
-- Feature flag management
-- Secrets management
-- GitOps practices
-- Multi-team support with shared components
+  - Open-source and cloud-native architecture
+  - Containerization and Kubernetes orchestration
+  - Microservices architecture with service mesh
+  - Comprehensive observability and monitoring
+  - Local-first development approach
+  - Feature flag management
+  - Secrets management
+  - GitOps practices
+  - Multi-team support with shared components
 
 * Repository Structure
-- ~platform/~: Shared platform services and innersource components
-- ~teams/~: Team-specific services and components
-- ~shared/~: Common utilities and configurations
-- ~examples/~: Usage examples for platform components
-- ~demo/~: Demonstration scenarios and scripts
+  - =internal-developer-platform/=:
+    - =data-layer/=: Data layer components
+    - =demo/=: Demonstration scenarios and scripts
+    - =docs/=: Documentation
+    - =frontend/=: Frontend components
+    - =idp-checklist-article.md=: IDP checklist article
+    - =idp-innersource-metrics.md=: IDP innersource metrics
+    - =idp-maturity-checklist-2024.org=: IDP maturity checklist
+    - =idp-plan-1y.md=: IDP plan
+    - =platform/=: Platform components
+      - =api-gateway/=: API gateway
+      - =change-management/=: Change management
+      - =cicd-api-doctor/=: CI/CD API doctor
+      - =engineering-standards/=: Engineering standards
+      - =feature-flags/=: Feature flags
+      - =gitops/=: GitOps
+      - =innersource-distributed-tracing/=: Innersource distributed tracing
+      - =innersource-shared-models/=: Innersource shared models
+      - =observability/=: Observability
+      - =secrets-management/=: Secrets management
+      - =service-mesh/=: Service mesh
+      - =shared-infrastructure/=: Shared infrastructure
+      - =shared-models/=: Shared models
+      - =ui-analytics/=: UI analytics
+    - =teams/=: Team-specific components
+      - =customer-experience/=: Customer experience team
+      - =order-fulfillment/=: Order fulfillment team
+      - =product-catalog/=: Product catalog team
 
 * Teams
 1. Order Fulfillment
@@ -36,15 +66,15 @@ This repository contains a comprehensive demo of an Internal Developer Platform 
 
 * Getting Started
 1. Clone this repository
-2. Review the IDP maturity checklist in ~idp-maturity-checklist-2024.org~
+2. Review the IDP maturity checklist in =idp-maturity-checklist-2024.org=
 3. Explore team-specific directories and their respective IDP checklists
-4. Check out the ~demo/~ directory for specific usage scenarios
+4. Check out the =demo/= directory for specific usage scenarios
 
 * Local Development
 The IDP emphasizes a local-first approach:
-- Use LocalStack for AWS service emulation
-- Leverage Telepresence for local microservices development
-- Implement offline-capable features where possible
+  - Use LocalStack for AWS service emulation
+  - Leverage Telepresence for local microservices development
+  - Implement offline-capable features where possible
 
 * Continuous Improvement
 Regular audits and assessments using the IDP Maturity Checklist ensure the platform's ongoing evolution and alignment with organizational needs.
