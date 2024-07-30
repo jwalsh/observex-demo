@@ -1,4 +1,6 @@
 .
+├── docker-compose.yml
+├── files.txt
 ├── internal-developer-platform
 │   ├── demo
 │   │   ├── distributed-tracing
@@ -16,6 +18,10 @@
 │   │   │   ├── aws-services-local
 │   │   │   └── kubernetes-local
 │   │   └── shared-models
+│   ├── docs
+│   │   └── architecture-diagram.mmd
+│   ├── examples
+│   │   └── local-development
 │   ├── idp-checklist-article.md
 │   ├── idp-innersource-metrics.md
 │   ├── idp-maturity-checklist-2024.org
@@ -33,6 +39,7 @@
 │   │   │   │   └── change-request-template.md
 │   │   │   └── tooling
 │   │   │       └── change-control-tool-config.yml
+│   │   ├── cicd
 │   │   ├── cicd-api-doctor
 │   │   │   └── README.org
 │   │   ├── engineering-standards
@@ -40,6 +47,10 @@
 │   │   │   ├── observability-standards.md
 │   │   │   ├── platform-architecture.md
 │   │   │   └── security-policy.md
+│   │   ├── feature-flags
+│   │   │   └── README.md
+│   │   ├── gitops
+│   │   │   └── README.md
 │   │   ├── graphql-federation
 │   │   │   ├── resolvers
 │   │   │   └── schema
@@ -81,11 +92,16 @@
 │   │   │       └── tests
 │   │   ├── innersource-shared-models
 │   │   │   └── README.md
+│   │   ├── logging
 │   │   ├── monitoring
 │   │   │   ├── alerts
 │   │   │   ├── dashboards
 │   │   │   ├── grafana
 │   │   │   └── prometheus
+│   │   ├── secrets-management
+│   │   │   └── README.md
+│   │   ├── service-mesh
+│   │   │   └── README.md
 │   │   ├── shared-infrastructure
 │   │   │   ├── aws
 │   │   │   │   ├── organization-structure.tf
@@ -99,12 +115,17 @@
 │   │   │   ├── order
 │   │   │   ├── product
 │   │   │   └── README.md
+│   │   ├── telepresence
+│   │   │   └── README.md
 │   │   ├── terraform-modules
 │   │   ├── ui-analytics
 │   │   │   └── README.org
 │   │   ├── ui-components
 │   │   └── utilities
 │   ├── README.org
+│   ├── shared
+│   │   ├── graphql-federation
+│   │   └── schema-registry
 │   └── teams
 │       ├── customer-experience
 │       │   ├── database
@@ -115,6 +136,7 @@
 │       │   │   ├── config
 │       │   │   ├── pipelines
 │       │   │   └── scripts
+│       │   ├── docker-compose.yml
 │       │   ├── docs
 │       │   │   ├── api
 │       │   │   ├── architecture
@@ -149,6 +171,7 @@
 │       │   │   ├── config
 │       │   │   ├── pipelines
 │       │   │   └── scripts
+│       │   ├── docker-compose.yml
 │       │   ├── docs
 │       │   │   ├── api
 │       │   │   ├── architecture
@@ -183,6 +206,7 @@
 │           │   ├── config
 │           │   ├── pipelines
 │           │   └── scripts
+│           ├── docker-compose.yml
 │           ├── docs
 │           │   ├── api
 │           │   ├── architecture
@@ -211,6 +235,9 @@
 ├── setup-demo1.sh
 ├── setup-demo2.sh
 ├── setup-demo3.sh
+├── setup-demo4.sh
+├── setup-docker-compose.sh
+├── show_text_files.sh
 └── tree.txt
 
-152 directories, 61 files
+165 directories, 75 files
