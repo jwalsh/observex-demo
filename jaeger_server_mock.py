@@ -15,15 +15,30 @@ def receive_traces():
     logger.info(f'[{current_time}] "POST /api/traces" "{request.user_agent}"')
     
     try:
-        # Try to parse the incoming data as JSON
-        data = request.get_json(force=True)
-        logger.info(f'Received trace data: {json.dumps(data, indent=2)}')
+        # Get the raw data
+        raw_data = request.get_data(as_text=True)
+        logger.info(f'Received raw data: {raw_data}')
+
+        # Try to parse the JSON
+        data = json.loads(raw_data)
+        
+        trace_id = data.get('traceId')
+        payload = data.get('payload')
+        
+        if not trace_id or not payload:
+            raise ValueError("Missing traceId or payload")
+        
+        logger.info(f'Received trace data:')
+        logger.info(f'  TraceId: {trace_id}')
+        logger.info(f'  Payload: {json.dumps(payload, indent=2)}')
+        
         return jsonify({"status": "success"}), 200
     except json.JSONDecodeError as e:
-        # If JSON parsing fails, log the raw data
-        logger.error(f'Failed to parse JSON: {str(e)}')
-        logger.error(f'Raw data received: {request.data.decode()}')
-        return jsonify({"status": "error", "message": "Invalid JSON data"}), 400
+        logger.error(f'JSON Decode Error: {str(e)}')
+        return jsonify({"status": "error", "message": f"Invalid JSON: {str(e)}"}), 400
+    except Exception as e:
+        logger.error(f'Error processing trace data: {str(e)}')
+        return jsonify({"status": "error", "message": str(e)}), 400
 
 @app.route('/health', methods=['GET'])
 def health_check():
