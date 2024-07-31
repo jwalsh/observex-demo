@@ -62,7 +62,7 @@ The IDP demo highlights the following observability aspects:
 3. Customer Experience
 
 * Architecture Diagram
-[[./internal-developer-platform/docs/architecture-diagram.png]]
+[[./output/architecture-diagram.png]]
 
 * Getting Started
 1. Clone this repository

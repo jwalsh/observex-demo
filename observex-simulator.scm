@@ -1,10 +1,9 @@
-(use-modules (ice-9 format)
+(add-to-load-path ".")
+(use-modules (jaeger)
+	     (ice-9 format)
 	     (srfi srfi-1)
 	     (srfi srfi-19)
 	     (srfi srfi-27))
-
-;; (add-to-load-path ".")
-;; (use-modules (jaeger))
 
 ;; ANSI color codes
 (define (color-text text color)
@@ -64,7 +63,8 @@
 	    action
 	    (if (vector? requester) "User" "Service")
 	    (color-text requester-id 'yellow)
-	    (color-text ref-id 'green))))
+	    (color-text ref-id 'green)))
+  (send-span-to-jaeger component action 50 ref-id)) ; Send span to Jaeger
 
 (define (format-feature-flags flags)
   (string-join 
@@ -217,6 +217,7 @@
 
 ;; Main execution
 (define (main args)
+  (init-jaeger #:verbose? #t #:debug? #f)
   (random-source-randomize! default-random-source)
   (run-interleaved-simulation 20)
   (exit)) ; Exit after running the simulation

@@ -1,74 +1,93 @@
 (define-module (jaeger)
+  #:use-module (ice-9 popen)
+  #:use-module (ice-9 rdelim)
+  #:use-module (srfi srfi-1)
   #:export (init-jaeger send-span-to-jaeger))
+
+(define jaeger-url "http://localhost:14268/api/traces")
+(define jaeger-health-url "http://localhost:14268/health")
+
+(define jaeger-initialized? #f)
+(define jaeger-available? #f)
+(define debug-mode? #f)
 
 (define (random-integer max)
   (let ((rand (random max)))
-    (if (eq? rand max)
+    (if (= rand max)
         (random-integer max)
         rand)))
 
-(define (current-time)
+(define (current-time-ms)
   (let ((time (gettimeofday)))
-    (+ (car time) (* 1000 (cdr time)))))
-
-(define (string-join strings delimiter)
-  (cond ((null? strings) "")
-        ((null? (cdr strings)) (car strings))
-        (else (string-append (car strings) delimiter (string-join (cdr strings) delimiter)))))
+    (+ (* 1000 (car time)) (cdr time))))
 
 (define (json-encode data)
   (cond ((null? data) "null")
         ((boolean? data) (if data "true" "false"))
         ((number? data) (number->string data))
-        ((string? data) (string-append "\"" data "\""))
+        ((string? data) (string-append "\"" (string-map (lambda (c) (if (char=? c #\") "\\\"" c)) data) "\""))
         ((list? data)
          (if (pair? (car data))
              (string-append "{" (string-join (map (lambda (pair) (string-append (json-encode (car pair)) ":" (json-encode (cdr pair)))) data) ",") "}")
              (string-append "[" (string-join (map json-encode data) ",") "]")))
         (else (error "Unsupported data type"))))
 
-(define jaeger-url "http://localhost:14268/api/traces")
-(define jaeger-health-url "http://localhost:14268/health")
-
-(define jaeger-available? #f)
-(define debug-mode? #f)
-
-(define (init-jaeger . args)
-  (let* ((verbose? (if (member #:verbose? args) (cadr (memq #:verbose? args)) #t))
-         (debug? (if (member #:debug? args) (cadr (memq #:debug? args)) #f)))
-    (set! debug-mode? debug?)
-    (set! jaeger-available?
-          (eq? (system* "curl" "-s" "-o" "/dev/null" "-w" "%{http_code}" jaeger-health-url) "200"))
-    (unless jaeger-available?
-      (display "Jaeger is not available, ignoring spans...\n")
-      (when verbose?
-        (display "Warning: Jaeger initialization failed.\n")))))
-
-(define (debug-print-span span-data)
+(define (debug-print message)
   (when debug-mode?
-    (display "Span Data:\n")
-    (display (json-encode span-data))
+    (display message)
     (newline)))
 
+(define (execute-curl-command command)
+  (let* ((port (open-input-pipe command))
+         (output (read-line port)))
+    (close-pipe port)
+    (if (eof-object? output)
+        "000"  ; Return a default value when the command fails
+        output)))
+
+(define (init-jaeger . args)
+  (when (not jaeger-initialized?)
+    (set! jaeger-initialized? #t)
+    (let* ((verbose? (if (and (not (null? args)) (eq? (car args) #:verbose?))
+                         (cadr args)
+                         #t))
+           (debug? (if (and (> (length args) 2) (eq? (caddr args) #:debug?))
+                       (cadddr args)
+                       #f)))
+      (set! debug-mode? debug?)
+      (when verbose?
+        (display "Initializing Jaeger...\n")
+        (format #t "Jaeger Health URL: ~a\n" jaeger-health-url)
+        (format #t "Jaeger URL: ~a\n" jaeger-url))
+      (let ((curl-command (format #f "curl -s -o /dev/null -w %{http_code} ~a" jaeger-health-url)))
+        (debug-print (string-append "Executing command: " curl-command))
+        (let ((status-code (string-trim-both (execute-curl-command curl-command))))
+          (set! jaeger-available? (string=? status-code "200"))
+          (debug-print (format #f "Status code: ~a" status-code))))
+      (unless jaeger-available?
+        (display "Jaeger is not available, ignoring spans...\n")
+        (when verbose?
+          (display "Warning: Jaeger initialization failed.\n"))))))
+
 (define (send-span-to-jaeger service-name span-name duration-ms ref-id)
-  (let ((span-data (list
-                     (cons "traceId" (number->string (random-integer 10000000000000000000)))
-                     (cons "id" (number->string (random-integer 10000000000000000)))
-                     (cons "name" span-name)
-                     (cons "kind" "SERVER")
-                     (cons "timestamp" (number->string (current-time)))
-                     (cons "duration" (number->string duration-ms))
-                     (cons "localEndpoint" (list
-                                             (cons "serviceName" service-name)
-                                             (cons "ipv4" "127.0.0.1")
-                                             (cons "port" "8080")))
-                     (cons "tags" (list
-                                    (cons "http.method" "GET")
-                                    (cons "http.status_code" "200")
-                                    (cons "refId" ref-id))))))
-    (debug-print-span span-data)
+  (when (not jaeger-initialized?)
+    (init-jaeger))
+  (let ((span-data `(("traceId" . ,(number->string (random-integer 10000000000000000000)))
+                     ("id" . ,(number->string (random-integer 10000000000000000)))
+                     ("name" . ,span-name)
+                     ("kind" . "SERVER")
+                     ("timestamp" . ,(number->string (current-time-ms)))
+                     ("duration" . ,(number->string duration-ms))
+                     ("localEndpoint" . (("serviceName" . ,service-name)
+                                         ("ipv4" . "127.0.0.1")
+                                         ("port" . "8080")))
+                     ("tags" . (("http.method" . "GET")
+                                ("http.status_code" . "200")
+                                ("refId" . ,ref-id))))))
+    (debug-print (format #f "Sending span to Jaeger: ~a" (json-encode span-data)))
     (if jaeger-available?
         (begin
-          (system* "curl" "-X" "POST" "-H" "Content-Type: application/json" "-d" (json-encode span-data) jaeger-url)
+          (system* "curl" "-X" "POST" "-H" "Content-Type: application/json" 
+                   "-d" (json-encode span-data) jaeger-url)
           #t)
         #f)))
