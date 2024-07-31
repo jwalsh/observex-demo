@@ -1,5 +1,3 @@
-Based on the comprehensive RFC provided, here's a one-year plan for building, maintaining, and staffing an Internal Developer Platform (IDP):
-
 ## Q1: Foundation and Architecture
 
 **1. Establish Core Architecture:**
