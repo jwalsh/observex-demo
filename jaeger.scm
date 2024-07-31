@@ -1,6 +1,7 @@
 (define-module (jaeger)
   #:use-module (ice-9 popen)
   #:use-module (ice-9 rdelim)
+  #:use-module (ice-9 textual-ports)
   #:use-module (srfi srfi-1)
   #:export (init-jaeger send-span-to-jaeger))
 
@@ -38,12 +39,11 @@
     (newline)))
 
 (define (execute-curl-command command)
-  (let* ((port (open-input-pipe command))
-         (output (read-line port)))
-    (close-pipe port)
-    (if (eof-object? output)
-        "000"  ; Return a default value when the command fails
-        output)))
+  (let ((temp-file (tmpnam)))
+    (system (string-append command " > " temp-file))
+    (let ((output (call-with-input-file temp-file get-string-all)))
+      (delete-file temp-file)
+      (string-trim-both output))))
 
 (define (init-jaeger . args)
   (when (not jaeger-initialized?)
@@ -61,7 +61,7 @@
         (format #t "Jaeger URL: ~a\n" jaeger-url))
       (let ((curl-command (format #f "curl -s -o /dev/null -w %{http_code} ~a" jaeger-health-url)))
         (debug-print (string-append "Executing command: " curl-command))
-        (let ((status-code (string-trim-both (execute-curl-command curl-command))))
+        (let ((status-code (execute-curl-command curl-command)))
           (set! jaeger-available? (string=? status-code "200"))
           (debug-print (format #f "Status code: ~a" status-code))))
       (unless jaeger-available?
@@ -87,7 +87,8 @@
     (debug-print (format #f "Sending span to Jaeger: ~a" (json-encode span-data)))
     (if jaeger-available?
         (begin
-          (system* "curl" "-X" "POST" "-H" "Content-Type: application/json" 
-                   "-d" (json-encode span-data) jaeger-url)
+          (system (string-append "curl -X POST -H \"Content-Type: application/json\" -d '"
+                                 (json-encode span-data)
+                                 "' " jaeger-url))
           #t)
         #f)))
