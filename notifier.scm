@@ -1,93 +1,155 @@
-; notifier.scm - IRC bot core module
+; notifier.scm
 
-; Description:
-;   This module provides the core functionality for the IRC bot.
-;   It handles message dispatch, connecting to the server, joining channels,
-;   and sending messages.
+(define* (make-notifier #:key (driver 'console) (simulator-name "") (irc-settings '()) (slack-settings '()) (email-settings '()) (pagerduty-settings '()))
+  (define (notify-start simulation-name)
+    (case driver
+      ((irc)
+       (irc-notify-start irc-settings simulation-name))
+      ((slack)
+       (slack-notify-start slack-settings simulation-name))
+      ((email)
+       (email-notify-start email-settings simulation-name))
+      ((pagerduty)
+       (pagerduty-notify-start pagerduty-settings simulation-name))
+      (else
+       (console-notify-start simulation-name))))
 
-; Author: Your Name (or leave as is)
-; Date: 2024-08-01
+  (define (notify-stop simulation-name)
+    (case driver
+      ((irc)
+       (irc-notify-stop irc-settings simulation-name))
+      ((slack)
+       (slack-notify-stop slack-settings simulation-name))
+      ((email)
+       (email-notify-stop email-settings simulation-name))
+      ((pagerduty)
+       (pagerduty-notify-stop pagerduty-settings simulation-name))
+      (else
+       (console-notify-stop simulation-name))))
 
-; -- Module Initialization --
-(define-module (notifier)
-  #:use-module (ice-9 receive)   ; For pattern matching
-  #:use-module (ice-9 rdelim)     ; For better path manipulation
-  #:use-module (rnrs bytevectors) ; For binary data handling
-  #:use-module (srfi srfi-13)    ; For string library functions
-  #:use-module (srfi srfi-18)    ; For multithreading
+  (define (notify-info message)
+    (case driver
+      ((irc)
+       (irc-notify-info irc-settings message))
+      ((slack)
+       (slack-notify-info slack-settings message))
+      ((email)
+       (email-notify-info email-settings message))
+      ((pagerduty)
+       (pagerduty-notify-info pagerduty-settings message))
+      (else
+       (console-notify-info message))))
 
-  #:export (make-notifier
-            post-message
-            wait-for-message))
+  (define (notify-warn message)
+    (case driver
+      ((irc)
+       (irc-notify-warn irc-settings message))
+      ((slack)
+       (slack-notify-warn slack-settings message))
+      ((email)
+       (email-notify-warn email-settings message))
+      ((pagerduty)
+       (pagerduty-notify-warn pagerduty-settings message))
+      (else
+       (console-notify-warn message))))
 
-; -- Default Values --
-(define default-server "irc.freenode.net")
-(define default-port 6667)
-(define default-nick "guile-notifier")
-(define default-channel "#observers")
+  (define (notify-error message)
+    (case driver
+      ((irc)
+       (irc-notify-error irc-settings message))
+      ((slack)
+       (slack-notify-error slack-settings message))
+      ((email)
+       (email-notify-error email-settings message))
+      ((pagerduty)
+       (pagerduty-notify-error pagerduty-settings message))
+      (else
+       (console-notify-error message))))
 
-; -- Data Structures --
+  (define (irc-notify-start irc-settings simulation-name)
+    (let ((server (assoc-ref irc-settings 'server))
+          (port (assoc-ref irc-settings 'port))
+          (channel (assoc-ref irc-settings 'channel))
+          (nick (assoc-ref irc-settings 'nick))
+          (user (assoc-ref irc-settings 'user))
+          (password (assoc-ref irc-settings 'password)))
+      ; Use the IRC API to send a notification
+      ))
 
-(define-record-type <notifier>
-  (make-notifier name)
-  notifier-name
-  (mutable notifier-channel #f)) ; For internal message passing
+  (define (irc-notify-stop irc-settings simulation-name)
+    (let ((server (assoc-ref irc-settings 'server))
+          (port (assoc-ref irc-settings 'port))
+          (channel (assoc-ref irc-settings 'channel))
+          (nick (assoc-ref irc-settings 'nick))
+          (user (assoc-ref irc-settings 'user))
+          (password (assoc-ref irc-settings 'password)))
+      ; Use the IRC API to send a notification
+      ))
 
-; -- Core Functions --
+  (define (slack-notify-start slack-settings simulation-name)
+    (let ((token (assoc-ref slack-settings 'token))
+          (channel (assoc-ref slack-settings 'channel))
+          (username (assoc-ref slack-settings 'username))
+          (icon (assoc-ref slack-settings 'icon)))
+      ; Use the Slack API to send a notification
+      ))
 
-;; Creates a new notifier object and initializes it
-(define (make-notifier name)
-  (let ((notifier (make-notifier name)))
-    (set-notifier-channel! notifier (make-channel))
-    notifier))
+  (define (slack-notify-stop slack-settings simulation-name)
+    (let ((token (assoc-ref slack-settings 'token))
+          (channel (assoc-ref slack-settings 'channel))
+          (username (assoc-ref slack-settings 'username))
+          (icon (assoc-ref slack-settings 'icon)))
+      ; Use the Slack API to send a notification
+      ))
 
-;; Posts a message to the notifier
-(define (post-message notifier message)
-  (channel-put! (notifier-channel notifier) message))
+  (define (email-notify-start email-settings simulation-name)
+    (let ((smtp-server (assoc-ref email-settings 'smtp-server))
+          (smtp-port (assoc-ref email-settings 'smtp-port))
+          (from-address (assoc-ref email-settings 'from-address))
+          (to-address (assoc-ref email-settings 'to-address))
+          (subject (assoc-ref email-settings 'subject)))
+      ; Use an email library to send a notification
+      ))
 
-;; Waits for a message from the notifier, blocking until one is available
-(define (wait-for-message notifier)
-  (channel-get (notifier-channel notifier)))
+  (define (email-notify-stop email-settings simulation-name)
+    (let ((smtp-server (assoc-ref email-settings 'smtp-server))
+          (smtp-port (assoc-ref email-settings 'smtp-port))
+          (from-address (assoc-ref email-settings 'from-address))
+          (to-address (assoc-ref email-settings 'to-address))
+          (subject (assoc-ref email-settings 'subject)))
+      ; Use an email library to send a notification
+      ))
 
+  (define (pagerduty-notify-start pagerduty-settings simulation-name)
+    (let ((api-key (assoc-ref pagerduty-settings 'api-key))
+          (service-id (assoc-ref pagerduty-settings 'service-id))
+          (event-action (assoc-ref pagerduty-settings 'event-action)))
+      ; Use the PagerDuty API to send a notification
+      ))
 
-; -- IRC Functionality --
-(define (irc-bot-loop notifier)
-  (let ((server (get-parameter notifier 'server default-server))
-        (port (get-parameter notifier 'port default-port))
-        (nick (get-parameter notifier 'nick default-nick))
-        (channel (get-parameter notifier 'channel default-channel)))
+  (define (pagerduty-notify-stop pagerduty-settings simulation-name)
+    (let ((api-key (assoc-ref pagerduty-settings 'api-key))
+          (service-id (assoc-ref pagerduty-settings 'service-id))
+          (event-action (assoc-ref pagerduty-settings 'event-action)))
+      ; Use the PagerDuty API to send a notification
+      ))
 
-    ;; Connect to the IRC server
-    (let ((connection (open-tcp-stream server port)))
-      ;; Send registration commands (NICK, USER)
-      (display (format "NICK ~a\r\n" nick) connection)
-      (display (format "USER ~a 0 * :Guile IRC Bot\r\n" nick) connection)
+  (let ((notification-level (getenv (string-append (string-upcase simulator-name) "_NOTIFICATION_LEVEL"))))
+    (case notification-level
+      ((info)
+       (set! notify-info (lambda (message) (notify-info message))))
+      ((warn)
+       (set! notify-warn (lambda (message) (notify-warn message))))
+      ((error)
+       (set! notify-error (lambda (message) (notify-error message))))
+      (else
+       (set! notify-info (lambda (message) (notify-info message))))))
 
-      ;; Join the specified channel
-      (if channel
-          (display (format "JOIN ~a\r\n" channel) connection))
-
-      ;; Main loop: read and process messages
-      (let loop ()
-        (receive (line (read-line connection))
-          ;; Handle PING messages to keep the connection alive
-          (if (string-prefix? "PING :" line)
-              (begin
-                (display (string-append "PONG :" (substring line 6) "\r\n") connection)
-                (loop))
-              ;; Process other messages from the server
-              (post-message notifier line))
-          ;; Process messages from the notifier object
-          (receive (message (wait-for-message notifier))
-            (if (string=? message "quit")
-                (exit)
-                (display (string-append message "\r\n") connection)))))))
-
-(define (get-parameter notifier keyword default)
-  (let ((value (assoc keyword (notifier-parameters notifier))))
-    (if value
-        (cadr value)
-        default)))
-
-; Start the bot thread
-(thread-start! (lambda () (irc-bot-loop (make-notifier "IRC Bot"))))
+  (lambda (method . args)
+    (case method
+      ((notify-start) (apply notify-start args))
+      ((notify-stop) (apply notify-stop args))
+      ((notify-info) (apply notify-info args))
+      ((notify-warn) (apply notify-warn args))
+      ((notify-error) (apply notify-error args))
+      (else (error "Unknown method")))))

@@ -4,7 +4,7 @@
 ;   This script demonstrates how to interact with the IRC bot defined in notifier.scm.
 ;   It includes test cases for joining a channel, sending a message, and quitting the bot.
 
-; Author: Your Name (or leave as is)
+; Author: Jason Walsh <j@wal.sh>
 ; Date: 2024-08-01
 
 ; -- Load Path Setup --
@@ -18,7 +18,7 @@
 (define default-server "irc.freenode.net")
 (define default-port 6667)
 (define default-nick "guile-observer")
-(define default-channel "#observers")
+(define default-channel "#observerx")
 
 ; -- Test Functions --
 (define (test-join-channel notifier)
