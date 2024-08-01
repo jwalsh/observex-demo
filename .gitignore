@@ -1,3 +1,5 @@
 files.txt
 tree.txt
 simulator.txt
+.env
+venv
