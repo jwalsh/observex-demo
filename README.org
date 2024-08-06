@@ -1,3 +1,6 @@
+#+TITLE: observex-demo
+#+LAST_MODIFIED: 2024-08-06 06:46:43
+
 #+TITLE: Internal Developer Platform (IDP) Demo
 #+AUTHOR: Platform Engineering Team
 
